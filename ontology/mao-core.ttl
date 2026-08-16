@@ -1,0 +1,486 @@
+@prefix mao:     <https://gov.tesseract.academy/def/media#> .
+@prefix maosch:  <https://gov.tesseract.academy/def/media/scheme#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+
+<https://gov.tesseract.academy/def/media>
+    a owl:Ontology ;
+    dcterms:title "Media Attention Ontology (MAO)"@en ;
+    dcterms:creator "Fabio Rovai" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    owl:versionInfo "0.1.0" ;
+    rdfs:comment """An open OWL 2 ontology for content identity, distribution, and measured attention across screens: what was released, where it could be watched, who observed a viewing of it, by which measurement method, and with what confidence.
+
+MAO makes three commitments that distinguish it from existing media metadata schemas. First, the abstraction hierarchy of a creative work (work, edit, manifestation, distribution on a service) is modelled explicitly, because a viewing event attaches to a manifestation on a service and never to an abstract work, and collapsing those levels is the single largest source of error in cross-catalogue measurement. Second, identifiers are reified assertions carrying a scheme, a source system, a scope level, and a computed validation state, so that a disagreement between two catalogues is a query rather than an audit project. Third, an observation of attention is distinct from the attention itself: two measurement methods observing the same household produce two observations, and the ontology holds both without forcing a reconciliation that the underlying evidence does not support.
+
+Third instantiation of the identifier-fabric design stance shared with the Investment Fund Ontology (https://github.com/fabio-rovai/investment-fund-ontology) and the Insurance Register Ontology (https://github.com/fabio-rovai/insurance-register-ontology)."""@en .
+
+#################################################################
+# 1. The work abstraction hierarchy
+#################################################################
+
+mao:CreativeWork a owl:Class ;
+    rdfs:label "creative work"@en ;
+    rdfs:comment "Anything in the audiovisual domain that can be identified, scheduled, distributed or watched, at any level of abstraction. The abstract superclass of the hierarchy; instances should normally be typed to a more specific level, because the level determines what may legitimately be said about the resource."@en .
+
+mao:AbstractWork a owl:Class ;
+    rdfs:subClassOf mao:CreativeWork ;
+    rdfs:label "abstract work"@en ;
+    rdfs:comment "The title-level abstraction: the film, the episode, the advertisement as a creative idea, independent of any particular cut, encoding, language version or distribution. Nothing is ever watched at this level. Registry identifiers minted at this level (an EIDR abstraction record, an IMDb title identifier) are properly scoped to it and must not be treated as identifying a manifestation."@en .
+
+mao:Series a owl:Class ;
+    rdfs:subClassOf mao:AbstractWork ;
+    rdfs:label "series"@en ;
+    rdfs:comment "A serial work comprising seasons and episodes."@en .
+
+mao:Season a owl:Class ;
+    rdfs:subClassOf mao:AbstractWork ;
+    rdfs:label "season"@en ;
+    rdfs:comment "An ordered grouping of episodes within a series. Season numbering is a distributor assertion, not a property of the work: the same episodes are numbered differently in different territories, which is why season membership is a relation carrying provenance rather than a bare integer on the episode."@en .
+
+mao:Episode a owl:Class ;
+    rdfs:subClassOf mao:AbstractWork ;
+    rdfs:label "episode"@en .
+
+mao:Film a owl:Class ;
+    rdfs:subClassOf mao:AbstractWork ;
+    rdfs:label "film"@en .
+
+mao:Advertisement a owl:Class ;
+    rdfs:subClassOf mao:AbstractWork ;
+    rdfs:label "advertisement"@en ;
+    rdfs:comment "An advertising creative considered as a work: the campaign asset, of which individual cuts, durations and language versions are edits. Advertising identifier schemes are minted at this level or at edit level and the distinction is load-bearing for frequency and reach computation."@en .
+
+mao:Edit a owl:Class ;
+    rdfs:subClassOf mao:CreativeWork ;
+    rdfs:label "edit"@en ;
+    rdfs:comment "A specific cut of an abstract work: theatrical, broadcast-standards, director's, a 30-second versus a 15-second advertising cut, a territory-censored version. Two edits of the same work have different durations and different content, so a duration-based measurement rule that resolves only to the work is already wrong."@en .
+
+mao:Manifestation a owl:Class ;
+    rdfs:subClassOf mao:CreativeWork ;
+    rdfs:label "manifestation"@en ;
+    rdfs:comment "A concrete encoded instance of an edit: a resolution, codec, audio configuration, language and subtitle set. This is the level at which a stream is actually delivered."@en .
+
+mao:Clip a owl:Class ;
+    rdfs:subClassOf mao:CreativeWork ;
+    rdfs:label "clip"@en ;
+    rdfs:comment "An excerpt of another work, distributed in its own right. Attention paid to a clip is not attention paid to the parent work, which is a routine over-counting error in social and short-form measurement."@en .
+
+mao:hasEdit a owl:ObjectProperty ;
+    rdfs:domain mao:AbstractWork ;
+    rdfs:range mao:Edit ;
+    rdfs:label "has edit"@en .
+
+mao:editOf a owl:ObjectProperty ;
+    owl:inverseOf mao:hasEdit ;
+    rdfs:label "edit of"@en .
+
+mao:hasManifestation a owl:ObjectProperty ;
+    rdfs:domain mao:Edit ;
+    rdfs:range mao:Manifestation ;
+    rdfs:label "has manifestation"@en .
+
+mao:manifestationOf a owl:ObjectProperty ;
+    owl:inverseOf mao:hasManifestation ;
+    rdfs:label "manifestation of"@en .
+
+mao:excerptFrom a owl:ObjectProperty ;
+    rdfs:domain mao:Clip ;
+    rdfs:range mao:CreativeWork ;
+    rdfs:label "excerpt from"@en .
+
+mao:partOfSeason a owl:ObjectProperty ;
+    rdfs:domain mao:Episode ;
+    rdfs:range mao:Season ;
+    rdfs:label "part of season"@en .
+
+mao:partOfSeries a owl:ObjectProperty ;
+    rdfs:range mao:Series ;
+    rdfs:label "part of series"@en .
+
+mao:abstractionLevel a owl:DatatypeProperty ;
+    rdfs:domain mao:CreativeWork ;
+    rdfs:range xsd:string ;
+    rdfs:label "abstraction level"@en ;
+    rdfs:comment "A denormalised label for the level occupied in the hierarchy, carried so that scope violations can be detected by a shape without requiring a reasoner."@en .
+
+mao:title a owl:DatatypeProperty ;
+    rdfs:domain mao:CreativeWork ;
+    rdfs:range xsd:string ;
+    rdfs:label "title"@en .
+
+mao:releaseYear a owl:DatatypeProperty ;
+    rdfs:domain mao:CreativeWork ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "release year"@en .
+
+mao:runtimeSeconds a owl:DatatypeProperty ;
+    rdfs:domain mao:CreativeWork ;
+    rdfs:range xsd:integer ;
+    rdfs:label "runtime in seconds"@en .
+
+#################################################################
+# 2. Identifier fabric
+#################################################################
+
+mao:IdentifierAssertion a owl:Class ;
+    rdfs:label "identifier assertion"@en ;
+    rdfs:comment "A reified claim that a particular resource carries a particular identifier under a particular scheme, according to a particular source, with a computed validation state. Identifiers are not literals in this ontology: a literal cannot record who said it, which registry minted it, what it is scoped to, or whether its check character survives arithmetic. Every cross-catalogue disagreement in media metadata is a disagreement between two of these nodes."@en .
+
+mao:hasIdentifier a owl:ObjectProperty ;
+    rdfs:range mao:IdentifierAssertion ;
+    rdfs:label "has identifier"@en .
+
+mao:identifierValue a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range xsd:string ;
+    rdfs:label "identifier value"@en .
+
+mao:identifierScheme a owl:ObjectProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range skos:Concept ;
+    rdfs:label "identifier scheme"@en ;
+    rdfs:comment "The scheme concept from the identifier scheme registry, which is where the scope level, the issuing authority, the syntactic pattern and the check-character algorithm are declared."@en .
+
+mao:identifierSource a owl:ObjectProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range skos:Concept ;
+    rdfs:label "identifier source"@en ;
+    rdfs:comment "The system in which this assertion was observed, which is not the same as the authority that mints the scheme. An EIDR identifier observed in Wikidata is an assertion by Wikidata about EIDR, and the distinction is exactly what makes third-party identifier coverage measurable."@en .
+
+mao:checksumValid a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "checksum valid"@en ;
+    rdfs:comment "The result of running the scheme's declared check-character algorithm over the value. Absent where the scheme declares no algorithm; false is a hard data-quality finding, because a value failing its own arithmetic cannot exist in the issuing registry."@en .
+
+mao:syntaxValid a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "syntax valid"@en .
+
+mao:resolvedInRegistry a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentifierAssertion ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "resolved in issuing registry"@en ;
+    rdfs:comment "Whether the value was confirmed present in the registry that mints the scheme, as distinct from being merely well-formed. A syntactically valid, checksum-clean identifier that the registry does not know is a different and more interesting failure than a malformed one."@en .
+
+mao:scopeLevel a owl:ObjectProperty ;
+    rdfs:domain skos:Concept ;
+    rdfs:range skos:Concept ;
+    rdfs:label "scope level"@en ;
+    rdfs:comment "Declares, on the scheme concept rather than on each assertion, which level of the work hierarchy the scheme identifies: work, edit, manifestation, service, party or creative. This is the load-bearing design idea. Entity resolution across media catalogues fails mostly because work-scoped and manifestation-scoped identifiers are joined as though they were the same kind of thing."@en .
+
+#################################################################
+# 3. Identity links between entities
+#################################################################
+
+mao:IdentityLink a owl:Class ;
+    rdfs:label "identity link"@en ;
+    rdfs:comment "A reified, graded assertion that two resources denote the same real-world entity. Deliberately not owl:sameAs. A probabilistic match produced by a similarity model is evidence about identity, not identity; asserting owl:sameAs on it licenses inference the evidence does not support, and in a graph that is refreshed in batches those inferences are unretractable in practice."@en .
+
+mao:linkSubject a owl:ObjectProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:label "link subject"@en .
+
+mao:linkObject a owl:ObjectProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:label "link object"@en .
+
+mao:linkConfidence a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "link confidence"@en ;
+    rdfs:comment "A value in [0,1]. A link without a confidence and without a method is not usable evidence and shapes reject it."@en .
+
+mao:linkMethod a owl:ObjectProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:range skos:Concept ;
+    rdfs:label "link method"@en ;
+    rdfs:comment "Deterministic shared identifier, normalised string match, embedding similarity, human adjudication, or registry cross-reference. The method determines what the confidence means and whether the link may be promoted."@en .
+
+mao:linkAssertedBy a owl:ObjectProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:label "asserted by"@en .
+
+mao:linkAssertedAt a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "asserted at"@en .
+
+mao:linkStatus a owl:DatatypeProperty ;
+    rdfs:domain mao:IdentityLink ;
+    rdfs:range xsd:string ;
+    rdfs:label "link status"@en ;
+    rdfs:comment "proposed, accepted, rejected or superseded. Rejected links are retained: an entity resolution system that forgets what it has already rejected re-proposes it on every refresh."@en .
+
+#################################################################
+# 4. Distribution: services, platforms, availability
+#################################################################
+
+mao:Service a owl:Class ;
+    rdfs:label "service"@en ;
+    rdfs:comment "Anything that delivers content to a screen: a linear broadcast channel, a streaming service, an application, a virtual multichannel provider. Deliberately one class with a typed delivery mode, because the same brand is routinely all of these at once and splitting it into disjoint classes forces false choices at ingestion."@en .
+
+mao:LinearChannel a owl:Class ;
+    rdfs:subClassOf mao:Service ;
+    rdfs:label "linear channel"@en .
+
+mao:StreamingService a owl:Class ;
+    rdfs:subClassOf mao:Service ;
+    rdfs:label "streaming service"@en .
+
+mao:Distributor a owl:Class ;
+    rdfs:label "distributor"@en ;
+    rdfs:comment "The organisation operating a service or licensing content to it."@en .
+
+mao:operatesService a owl:ObjectProperty ;
+    rdfs:domain mao:Distributor ;
+    rdfs:range mao:Service ;
+    rdfs:label "operates service"@en .
+
+mao:AvailabilityWindow a owl:Class ;
+    rdfs:label "availability window"@en ;
+    rdfs:comment "A reified statement that a manifestation was available on a service, in a territory, between two instants, under a commercial model. Catalogue membership is time-bounded and territory-bounded, and a graph that stores it as a simple relation cannot answer what was available last quarter, which is the question measurement actually asks."@en .
+
+mao:windowContent a owl:ObjectProperty ;
+    rdfs:domain mao:AvailabilityWindow ;
+    rdfs:range mao:CreativeWork ;
+    rdfs:label "window content"@en .
+
+mao:windowService a owl:ObjectProperty ;
+    rdfs:domain mao:AvailabilityWindow ;
+    rdfs:range mao:Service ;
+    rdfs:label "window service"@en .
+
+mao:windowTerritory a owl:DatatypeProperty ;
+    rdfs:domain mao:AvailabilityWindow ;
+    rdfs:range xsd:string ;
+    rdfs:label "window territory"@en .
+
+mao:windowStart a owl:DatatypeProperty ;
+    rdfs:domain mao:AvailabilityWindow ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "window start"@en .
+
+mao:windowEnd a owl:DatatypeProperty ;
+    rdfs:domain mao:AvailabilityWindow ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "window end"@en .
+
+mao:ScheduledTransmission a owl:Class ;
+    rdfs:label "scheduled transmission"@en ;
+    rdfs:comment "A specific airing of a manifestation on a linear channel at a specific time in a specific territory. Distinct from the manifestation and distinct from any viewing of it."@en .
+
+#################################################################
+# 5. Devices, households, parties
+#################################################################
+
+mao:Device a owl:Class ;
+    rdfs:label "device"@en ;
+    rdfs:comment "A screen or client capable of rendering content: a television set, a set-top box, a phone, a browser. A device is not a person and not a household, and the ontology never silently promotes one to another."@en .
+
+mao:Household a owl:Class ;
+    rdfs:label "household"@en .
+
+mao:AudienceMember a owl:Class ;
+    rdfs:label "audience member"@en ;
+    rdfs:comment "A natural person whose attention is being measured. Modelled as a distinct class precisely so that the difference between a device-level and a person-level observation is explicit and cannot be lost in a join."@en .
+
+mao:deviceInHousehold a owl:ObjectProperty ;
+    rdfs:domain mao:Device ;
+    rdfs:range mao:Household ;
+    rdfs:label "device in household"@en .
+
+mao:memberOfHousehold a owl:ObjectProperty ;
+    rdfs:domain mao:AudienceMember ;
+    rdfs:range mao:Household ;
+    rdfs:label "member of household"@en .
+
+mao:ConsentRecord a owl:Class ;
+    rdfs:label "consent record"@en ;
+    rdfs:comment "The lawful basis under which observations about a party or device may be processed, with its scope, its timestamp and its expiry. Attached to the party rather than to the event, because consent is withdrawn at party level and every downstream derived attribute must be revocable in one traversal. In a domain governed by video privacy statutes and by consent frameworks, a graph that cannot answer which derived attributes depend on a withdrawn consent is not deployable."@en .
+
+mao:hasConsentRecord a owl:ObjectProperty ;
+    rdfs:range mao:ConsentRecord ;
+    rdfs:label "has consent record"@en .
+
+mao:consentBasis a owl:ObjectProperty ;
+    rdfs:domain mao:ConsentRecord ;
+    rdfs:range skos:Concept ;
+    rdfs:label "consent basis"@en .
+
+mao:consentGrantedAt a owl:DatatypeProperty ;
+    rdfs:domain mao:ConsentRecord ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "consent granted at"@en .
+
+mao:consentWithdrawnAt a owl:DatatypeProperty ;
+    rdfs:domain mao:ConsentRecord ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "consent withdrawn at"@en .
+
+#################################################################
+# 6. Attention: events and their observations
+#################################################################
+
+mao:AttentionEvent a owl:Class ;
+    rdfs:label "attention event"@en ;
+    rdfs:comment "An episode of attention paid by a party or device to a creative work on a service, considered as something that happened in the world. Crucially, an attention event is not a row in a measurement dataset: it is the thing a measurement dataset is evidence about."@en .
+
+mao:ViewingEvent a owl:Class ;
+    rdfs:subClassOf mao:AttentionEvent ;
+    rdfs:label "viewing event"@en .
+
+mao:AdExposure a owl:Class ;
+    rdfs:subClassOf mao:AttentionEvent ;
+    rdfs:label "advertising exposure"@en .
+
+mao:WebActivityEvent a owl:Class ;
+    rdfs:subClassOf mao:AttentionEvent ;
+    rdfs:label "web activity event"@en .
+
+mao:eventContent a owl:ObjectProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:range mao:CreativeWork ;
+    rdfs:label "event content"@en .
+
+mao:eventService a owl:ObjectProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:range mao:Service ;
+    rdfs:label "event service"@en .
+
+mao:eventDevice a owl:ObjectProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:range mao:Device ;
+    rdfs:label "event device"@en .
+
+mao:eventParty a owl:ObjectProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:label "event party"@en ;
+    rdfs:comment "The household or audience member to whom the event is attributed. Attribution from a device to a person is itself an inference and belongs in an identity link, not in this property."@en .
+
+mao:eventStart a owl:DatatypeProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "event start"@en .
+
+mao:eventDurationSeconds a owl:DatatypeProperty ;
+    rdfs:domain mao:AttentionEvent ;
+    rdfs:range xsd:integer ;
+    rdfs:label "event duration in seconds"@en .
+
+mao:Observation a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "observation"@en ;
+    rdfs:comment "A record produced by a measurement method that purports to be evidence of an attention event. Two panels, an automatic content recognition system and a server-side log observing the same household in the same hour produce four observations, which will disagree about duration, about attribution and sometimes about what was on screen. The ontology holds all four and records their method, their operator and their known coverage, rather than forcing a single number that erases the disagreement."@en .
+
+mao:observationOf a owl:ObjectProperty ;
+    rdfs:domain mao:Observation ;
+    rdfs:range mao:AttentionEvent ;
+    rdfs:label "observation of"@en .
+
+mao:observationMethod a owl:ObjectProperty ;
+    rdfs:domain mao:Observation ;
+    rdfs:range skos:Concept ;
+    rdfs:label "observation method"@en .
+
+mao:observationOperator a owl:ObjectProperty ;
+    rdfs:domain mao:Observation ;
+    rdfs:label "observation operator"@en .
+
+mao:observationConfidence a owl:DatatypeProperty ;
+    rdfs:domain mao:Observation ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "observation confidence"@en .
+
+mao:contentIdentificationMethod a owl:ObjectProperty ;
+    rdfs:domain mao:Observation ;
+    rdfs:range skos:Concept ;
+    rdfs:label "content identification method"@en ;
+    rdfs:comment "How the observing system decided what was on screen: audio or video fingerprint matching, watermark detection, an electronic programme guide lookup, a player-reported identifier, or a diary entry. Fingerprint matching against a reference library can only recognise content the library contains, so absence of a match is not absence of viewing, and a graph that does not record the identification method cannot distinguish the two."@en .
+
+#################################################################
+# 7. Derived attributes: the affinity layer
+#################################################################
+
+mao:DerivedAttribute a owl:Class ;
+    rdfs:label "derived attribute"@en ;
+    rdfs:comment "A durable graph attribute computed by aggregating observations over a window: genre affinity, brand affinity, topic affinity, a viewing summary, a lifecycle signal. Reified deliberately. An affinity score with no recorded window, no method version and no input population is an unauditable number, and once such numbers are loaded into a graph and used for targeting there is no way to answer why a household carries one."@en ;
+    rdfs:seeAlso <https://gov.tesseract.academy/def/media#Observation> .
+
+mao:GenreAffinity a owl:Class ;
+    rdfs:subClassOf mao:DerivedAttribute ;
+    rdfs:label "genre affinity"@en .
+
+mao:BrandAffinity a owl:Class ;
+    rdfs:subClassOf mao:DerivedAttribute ;
+    rdfs:label "brand affinity"@en .
+
+mao:TopicAffinity a owl:Class ;
+    rdfs:subClassOf mao:DerivedAttribute ;
+    rdfs:label "topic affinity"@en .
+
+mao:attributeSubject a owl:ObjectProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:label "attribute subject"@en .
+
+mao:attributeConcept a owl:ObjectProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range skos:Concept ;
+    rdfs:label "attribute concept"@en ;
+    rdfs:comment "The genre, brand, topic or audience segment the score is about, drawn from a controlled scheme rather than a free-text label, so that affinities computed by different pipelines are comparable."@en .
+
+mao:attributeScore a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "attribute score"@en .
+
+mao:derivedFromObservationCount a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:integer ;
+    rdfs:label "derived from observation count"@en ;
+    rdfs:comment "How many observations the score rests on. A brand affinity resting on two exposures and one resting on two hundred are not the same claim, and shapes require the number to be present."@en .
+
+mao:derivationWindowStart a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "derivation window start"@en .
+
+mao:derivationWindowEnd a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "derivation window end"@en .
+
+mao:derivationMethod a owl:ObjectProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range skos:Concept ;
+    rdfs:label "derivation method"@en .
+
+mao:derivationVersion a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:string ;
+    rdfs:label "derivation version"@en .
+
+mao:computedAt a owl:DatatypeProperty ;
+    rdfs:domain mao:DerivedAttribute ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "computed at"@en .
+
+#################################################################
+# 8. Classification
+#################################################################
+
+mao:hasGenre a owl:ObjectProperty ;
+    rdfs:domain mao:CreativeWork ;
+    rdfs:range skos:Concept ;
+    rdfs:label "has genre"@en .
+
+mao:hasTopic a owl:ObjectProperty ;
+    rdfs:range skos:Concept ;
+    rdfs:label "has topic"@en .

@@ -1,0 +1,300 @@
+@prefix mao:    <https://gov.tesseract.academy/def/media#> .
+@prefix maosch: <https://gov.tesseract.academy/def/media/scheme#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+
+#################################################################
+# Layer 1: structural completeness
+#
+# These shapes encode the minimum a node must carry to be usable evidence.
+# They are deliberately strict about provenance-bearing fields: a score, a
+# match or an identifier with no recorded origin is not a weaker fact, it is
+# an unusable one.
+#################################################################
+
+mao:IdentifierAssertionShape a sh:NodeShape ;
+    sh:targetClass mao:IdentifierAssertion ;
+    rdfs:label "identifier assertion completeness"@en ;
+    sh:property [
+        sh:path mao:identifierValue ;
+        sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:message "An identifier assertion must carry exactly one value." ;
+    ] ;
+    sh:property [
+        sh:path mao:identifierScheme ;
+        sh:minCount 1 ; sh:maxCount 1 ; sh:class skos:Concept ;
+        sh:message "An identifier assertion must name the scheme it was minted under; the scheme is where scope level and check algorithm are declared." ;
+    ] ;
+    sh:property [
+        sh:path mao:identifierSource ;
+        sh:minCount 1 ;
+        sh:message "An identifier assertion must record the system it was observed in, which is not the same as the authority that mints the scheme." ;
+    ] .
+
+mao:IdentityLinkShape a sh:NodeShape ;
+    sh:targetClass mao:IdentityLink ;
+    rdfs:label "identity link completeness"@en ;
+    sh:property [
+        sh:path mao:linkSubject ; sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path mao:linkObject ; sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path mao:linkConfidence ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:message "Every identity link must carry a confidence in [0,1]. A match with no confidence cannot be reasoned about downstream." ;
+    ] ;
+    sh:property [
+        sh:path mao:linkMethod ; sh:minCount 1 ;
+        sh:message "Every identity link must record the method that produced it; the method determines what the confidence means." ;
+    ] ;
+    sh:property [
+        sh:path mao:linkStatus ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "proposed" "accepted" "rejected" "superseded" ) ;
+    ] .
+
+mao:DerivedAttributeShape a sh:NodeShape ;
+    sh:targetClass mao:DerivedAttribute ;
+    rdfs:label "derived attribute auditability"@en ;
+    sh:property [
+        sh:path mao:attributeSubject ; sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path mao:attributeConcept ;
+        sh:minCount 1 ; sh:class skos:Concept ;
+        sh:message "A derived attribute must point at a concept in a controlled scheme, not a free-text label, or affinities computed by different pipelines are not comparable." ;
+    ] ;
+    sh:property [
+        sh:path mao:attributeScore ;
+        sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    ] ;
+    sh:property [
+        sh:path mao:derivedFromObservationCount ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:integer ; sh:minInclusive 0 ;
+        sh:message "A derived attribute must record how many observations it rests on. This is the difference between a defensible score and a number nobody can explain." ;
+    ] ;
+    sh:property [
+        sh:path mao:derivationWindowStart ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+    ] ;
+    sh:property [
+        sh:path mao:derivationWindowEnd ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+    ] ;
+    sh:property [
+        sh:path mao:derivationMethod ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path mao:derivationVersion ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A derived attribute must record the version of the logic that produced it, or a refresh silently changes the meaning of every stored score." ;
+    ] .
+
+mao:ObservationShape a sh:NodeShape ;
+    sh:targetClass mao:Observation ;
+    rdfs:label "observation completeness"@en ;
+    sh:property [
+        sh:path mao:observationMethod ;
+        sh:minCount 1 ;
+        sh:message "An observation must record the measurement method that produced it. Two methods observing the same event will disagree, and a graph that has forgotten which is which cannot adjudicate." ;
+    ] ;
+    sh:property [
+        sh:path mao:observationOf ; sh:minCount 1 ;
+    ] .
+
+mao:AttentionEventShape a sh:NodeShape ;
+    sh:targetClass mao:AttentionEvent ;
+    rdfs:label "attention event completeness"@en ;
+    sh:property [
+        sh:path mao:eventStart ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+    ] ;
+    sh:property [
+        sh:path mao:eventDurationSeconds ;
+        sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+        sh:path mao:eventContent ; sh:minCount 1 ; sh:maxCount 1 ;
+    ] .
+
+#################################################################
+# Layer 2: value policy
+#################################################################
+
+mao:ChecksumPolicyShape a sh:NodeShape ;
+    sh:targetClass mao:IdentifierAssertion ;
+    rdfs:label "checksum policy"@en ;
+    sh:property [
+        sh:path mao:checksumValid ;
+        sh:maxCount 1 ; sh:datatype xsd:boolean ;
+    ] ;
+    sh:sparql [
+        sh:message "Identifier assertion under a scheme that declares a check-character algorithm records checksumValid false, or omits it entirely. The arithmetic is computed in the pipeline; this shape only requires that the recorded result be present and true." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+            SELECT $this ?value WHERE {
+                $this mao:identifierScheme ?scheme ;
+                      mao:identifierValue ?value .
+                ?scheme maosch:hasCheckAlgorithm ?algo .
+                OPTIONAL { $this mao:checksumValid ?ok }
+                FILTER ( !BOUND(?ok) || ?ok = false )
+            }
+        """ ;
+    ] .
+
+#################################################################
+# Layer 3: cross-entity rules
+#
+# The rules that make this ontology's claims falsifiable. Each corresponds to
+# a failure mode that is routine in production media graphs and invisible to
+# schema-level validation.
+#################################################################
+
+mao:R1_ScopeViolation a sh:NodeShape ;
+    sh:targetClass mao:IdentifierAssertion ;
+    rdfs:label "R1: identifier attached below its declared scope"@en ;
+    sh:sparql [
+        sh:message "R1: an identifier whose scheme is declared work-scoped is attached to a manifestation or an edit. Work-scoped identifiers do not distinguish cuts or encodings, so joining measurement data on one silently merges every version of the title." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+            SELECT $this ?subject WHERE {
+                ?subject mao:hasIdentifier $this .
+                $this mao:identifierScheme ?scheme .
+                ?scheme mao:scopeLevel maosch:WorkScoped .
+                ?subject rdf:type/rdfs:subClassOf* ?type .
+                FILTER ( ?type IN ( mao:Manifestation, mao:Edit ) )
+            }
+        """ ;
+    ] .
+
+mao:R2_IdentifierCollision a sh:NodeShape ;
+    sh:targetClass mao:IdentifierAssertion ;
+    rdfs:label "R2: one identifier value on two distinct works"@en ;
+    sh:sparql [
+        sh:message "R2: the same value under the same scheme is asserted of two distinct resources. Either the registry has issued a duplicate, or the catalogue holds the same work twice; both are entity-resolution defects and neither is visible without reifying the identifier." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            SELECT $this ?value WHERE {
+                ?a mao:hasIdentifier $this .
+                $this mao:identifierValue ?value ;
+                      mao:identifierScheme ?scheme .
+                ?b mao:hasIdentifier ?other .
+                ?other mao:identifierValue ?value ;
+                       mao:identifierScheme ?scheme .
+                FILTER ( ?a != ?b )
+            }
+        """ ;
+    ] .
+
+mao:R3_UnwatchableAbstraction a sh:NodeShape ;
+    sh:targetClass mao:AttentionEvent ;
+    rdfs:label "R3: attention paid to an abstraction"@en ;
+    sh:sparql [
+        sh:message "R3: an attention event points at an abstract work rather than a manifestation. Nobody watches an abstraction. An event resolved only to title level cannot support duration, completion or frequency computation, and the loss is invisible once the rows are aggregated." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?content WHERE {
+                $this mao:eventContent ?content .
+                ?content rdf:type/rdfs:subClassOf* mao:AbstractWork .
+                FILTER NOT EXISTS {
+                    ?content rdf:type/rdfs:subClassOf* mao:Manifestation
+                }
+            }
+        """ ;
+    ] .
+
+mao:R4_WindowInversion a sh:NodeShape ;
+    sh:targetClass mao:DerivedAttribute ;
+    rdfs:label "R4: derivation window inverted or zero-length"@en ;
+    sh:sparql [
+        sh:message "R4: a derived attribute declares a window whose end is not after its start." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            SELECT $this ?start ?end WHERE {
+                $this mao:derivationWindowStart ?start ;
+                      mao:derivationWindowEnd ?end .
+                FILTER ( ?end <= ?start )
+            }
+        """ ;
+    ] .
+
+mao:R5_UnsupportedAffinity a sh:NodeShape ;
+    sh:targetClass mao:DerivedAttribute ;
+    rdfs:label "R5: high-confidence affinity on negligible evidence"@en ;
+    sh:sparql [
+        sh:message "R5: an affinity scoring above 0.8 rests on fewer than three observations. The score is arithmetically defensible and substantively meaningless; this is the single most common way an audience graph acquires confident nonsense." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            SELECT $this ?score ?n WHERE {
+                $this mao:attributeScore ?score ;
+                      mao:derivedFromObservationCount ?n .
+                FILTER ( ?score > 0.8 && ?n < 3 )
+            }
+        """ ;
+    ] .
+
+mao:R6_OverpromotedLink a sh:NodeShape ;
+    sh:targetClass mao:IdentityLink ;
+    rdfs:label "R6: probabilistic link accepted below threshold"@en ;
+    sh:sparql [
+        sh:message "R6: a link produced by a probabilistic or embedding method carries status 'accepted' with confidence below 0.9. Accepting a probabilistic match at low confidence is how two households become one." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+            SELECT $this ?conf WHERE {
+                $this mao:linkStatus "accepted" ;
+                      mao:linkConfidence ?conf ;
+                      mao:linkMethod ?m .
+                FILTER ( ?m IN ( maosch:ProbabilisticMatch, maosch:EmbeddingSimilarity ) )
+                FILTER ( ?conf < 0.9 )
+            }
+        """ ;
+    ] .
+
+mao:R7_WithdrawnConsent a sh:NodeShape ;
+    sh:targetClass mao:DerivedAttribute ;
+    rdfs:label "R7: derived attribute outliving its consent"@en ;
+    sh:sparql [
+        sh:message "R7: a derived attribute about a party was computed at a time when that party's consent had already been withdrawn. In a domain governed by video privacy statutes this is not a data-quality nicety; it is the question a regulator asks first, and a graph that cannot answer it in one traversal is not deployable." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            SELECT $this ?party ?withdrawn ?computed WHERE {
+                $this mao:attributeSubject ?party ;
+                      mao:computedAt ?computed .
+                ?party mao:hasConsentRecord ?c .
+                ?c mao:consentWithdrawnAt ?withdrawn .
+                FILTER ( ?computed > ?withdrawn )
+            }
+        """ ;
+    ] .
+
+mao:R8_AvailabilityInversion a sh:NodeShape ;
+    sh:targetClass mao:AvailabilityWindow ;
+    rdfs:label "R8: availability window inverted"@en ;
+    sh:sparql [
+        sh:message "R8: an availability window ends before it starts." ;
+        sh:prefixes maosch: ;
+        sh:select """
+            PREFIX mao: <https://gov.tesseract.academy/def/media#>
+            SELECT $this ?start ?end WHERE {
+                $this mao:windowStart ?start ;
+                      mao:windowEnd ?end .
+                FILTER ( ?end < ?start )
+            }
+        """ ;
+    ] .

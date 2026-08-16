@@ -1,0 +1,17 @@
+# Q1. Works carrying EIDR identifiers at more than one level of the abstraction
+# hierarchy at once. This is the query the whole design exists to make possible:
+# without reified identifier assertions carrying the registry's own structural
+# type, the two identifiers look like synonyms and this returns nothing.
+PREFIX mao:    <https://gov.tesseract.academy/def/media#>
+PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+
+SELECT ?work (COUNT(DISTINCT ?level) AS ?levels)
+             (GROUP_CONCAT(DISTINCT ?level; separator=" + ") AS ?combination)
+WHERE {
+  ?work mao:hasIdentifier ?assertion .
+  ?assertion mao:identifierScheme maosch:EIDR ;
+             maosch:eidrStructuralType ?level .
+}
+GROUP BY ?work
+HAVING (COUNT(DISTINCT ?level) > 1)
+ORDER BY DESC(?levels) ?work

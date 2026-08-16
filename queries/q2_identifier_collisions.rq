@@ -1,0 +1,14 @@
+# Q2. One registry identifier claimed by two distinct works.
+PREFIX mao:    <https://gov.tesseract.academy/def/media#>
+PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+
+SELECT ?value (COUNT(DISTINCT ?work) AS ?works)
+              (GROUP_CONCAT(DISTINCT STR(?work); separator=", ") AS ?claimants)
+WHERE {
+  ?work mao:hasIdentifier ?assertion .
+  ?assertion mao:identifierScheme maosch:EIDR ;
+             mao:identifierValue ?value .
+}
+GROUP BY ?value
+HAVING (COUNT(DISTINCT ?work) > 1)
+ORDER BY DESC(?works) ?value

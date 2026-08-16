@@ -1,0 +1,112 @@
+{
+  "property_totals": {
+    "eidr_content": {
+      "statements": 224725,
+      "items": 224197,
+      "values": 224592,
+      "property": "P2704"
+    },
+    "eidr_party": {
+      "statements": 2243,
+      "items": 2205,
+      "values": 2241,
+      "property": "P12142"
+    },
+    "isan": {
+      "statements": 32979,
+      "items": 32942,
+      "values": 32979,
+      "property": "P3212"
+    },
+    "imdb": {
+      "statements": 1190646,
+      "items": 1187343,
+      "values": 1188240,
+      "property": "P345"
+    }
+  },
+  "buckets": {
+    "0": 14268,
+    "1": 14202,
+    "2": 14276,
+    "3": 14112,
+    "4": 14139,
+    "5": 14022,
+    "6": 13882,
+    "70": 910,
+    "71": 872,
+    "72": 886,
+    "73": 889,
+    "74": 891,
+    "75": 901,
+    "76": 846,
+    "77": 922,
+    "78": 847,
+    "79": 861,
+    "7A": 879,
+    "7B": 859,
+    "7C": 876,
+    "7D": 918,
+    "7E": 880,
+    "7F": 868,
+    "8": 13935,
+    "9": 13900,
+    "A": 13996,
+    "B": 14301,
+    "C": 13861,
+    "D": 13793,
+    "E": 13919,
+    "F": 13999
+  },
+  "harvested_pairs": 224710,
+  "coverage_by_type": {
+    "film": {
+      "wikidata_class": "Q11424",
+      "total": 348231,
+      "with_eidr": 186079,
+      "eidr_pct": 53.44,
+      "with_imdb": 273283,
+      "imdb_pct": 78.48
+    },
+    "television series": {
+      "wikidata_class": "Q5398426",
+      "total": 87959,
+      "with_eidr": 1620,
+      "eidr_pct": 1.84,
+      "with_imdb": 50245,
+      "imdb_pct": 57.12
+    },
+    "television series episode": {
+      "wikidata_class": "Q21191270",
+      "total": 181418,
+      "with_eidr": 14277,
+      "eidr_pct": 7.87,
+      "with_imdb": 152758,
+      "imdb_pct": 84.2
+    },
+    "television series season": {
+      "wikidata_class": "Q3464665",
+      "total": 26429,
+      "with_eidr": 784,
+      "eidr_pct": 2.97,
+      "with_imdb": 205,
+      "imdb_pct": 0.78
+    },
+    "television film": {
+      "wikidata_class": "Q506240",
+      "total": 22631,
+      "with_eidr": 6213,
+      "eidr_pct": 27.45,
+      "with_imdb": 21090,
+      "imdb_pct": 93.19
+    },
+    "short film": {
+      "wikidata_class": "Q24862",
+      "total": 49639,
+      "with_eidr": 7998,
+      "eidr_pct": 16.11,
+      "with_imdb": 31704,
+      "imdb_pct": 63.87
+    }
+  }
+}

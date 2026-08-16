@@ -1,0 +1,253 @@
+@prefix mao:    <https://gov.tesseract.academy/def/media#> .
+@prefix maosch: <https://gov.tesseract.academy/def/media/scheme#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Scope levels
+#
+# The registry's load-bearing distinction. Identifier schemes in media are
+# minted at different levels of the work hierarchy, and joining across levels
+# without declaring them is the mechanical cause of most cross-catalogue
+# entity-resolution failure.
+#################################################################
+
+maosch:ScopeLevelScheme a skos:ConceptScheme ;
+    dcterms:title "Identifier scope levels"@en .
+
+maosch:WorkScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "work-scoped"@en ;
+    skos:definition "Identifies a title-level abstraction. Does not distinguish cuts, encodings, language versions or distribution."@en .
+
+maosch:EditScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "edit-scoped"@en ;
+    skos:definition "Identifies a particular cut of a work, and therefore a particular duration."@en .
+
+maosch:ManifestationScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "manifestation-scoped"@en ;
+    skos:definition "Identifies a concrete encoded instance, the level at which a stream is actually delivered."@en .
+
+maosch:ServiceScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "service-scoped"@en ;
+    skos:definition "Identifies a channel, application or distribution service rather than any content on it."@en .
+
+maosch:PartyScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "party-scoped"@en ;
+    skos:definition "Identifies an organisation or person: a studio, a distributor, a rights holder."@en .
+
+maosch:CreativeScoped a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "creative-scoped"@en ;
+    skos:definition "Identifies an advertising creative asset."@en .
+
+maosch:MultiLevel a skos:Concept ;
+    skos:inScheme maosch:ScopeLevelScheme ;
+    skos:prefLabel "multi-level"@en ;
+    skos:definition "The scheme mints identifiers at more than one level of the hierarchy and the level cannot be recovered from the identifier's syntax alone. Consumers must resolve the identifier against its registry to learn what it denotes. This is the most dangerous category, because such identifiers look joinable and are not."@en .
+
+#################################################################
+# Identifier schemes
+#################################################################
+
+maosch:hasCheckAlgorithm a owl:DatatypeProperty ;
+    rdfs:label "has check algorithm"@en ;
+    rdfs:comment "Names the check-character algorithm a scheme declares, where it declares one. Its presence is what obliges an assertion under this scheme to carry a computed checksumValid."@en .
+
+maosch:syntaxPattern a owl:DatatypeProperty ;
+    rdfs:label "syntax pattern"@en .
+
+maosch:IdentifierSchemeScheme a skos:ConceptScheme ;
+    dcterms:title "Media identifier schemes"@en .
+
+maosch:EIDR a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "EIDR content identifier"@en ;
+    skos:definition "Entertainment Identifier Registry content identifier, issued under DOI prefix 10.5240. EIDR records declare their own structural type (abstraction, performance, digital, composite), so a bare EIDR identifier does not tell a consumer which level of the hierarchy it denotes."@en ;
+    mao:scopeLevel maosch:MultiLevel ;
+    maosch:hasCheckAlgorithm "ISO 7064 MOD 37,36 with EIDR symbol mapping" ;
+    maosch:syntaxPattern "^10\\.5240/[0-9A-F]{4}(-[0-9A-F]{4}){4}-[0-9A-Z]$" ;
+    skos:note "The check character uses the ISO 7064 hybrid MOD 37,36 computation, but EIDR maps the supplementary value to the digit 0 rather than the conventional asterisk. An unmodified ISO 7064 implementation therefore rejects every valid EIDR identifier whose check character is 0, which is approximately one in thirty-six of them."@en .
+
+maosch:EIDRParty a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "EIDR party identifier"@en ;
+    mao:scopeLevel maosch:PartyScoped .
+
+maosch:ISAN a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "ISAN"@en ;
+    skos:definition "International Standard Audiovisual Number, ISO 15706-2."@en ;
+    mao:scopeLevel maosch:MultiLevel .
+
+maosch:IMDbTitle a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "IMDb title identifier"@en ;
+    skos:definition "Title-level identifier in IMDb, of the form tt followed by digits."@en ;
+    mao:scopeLevel maosch:WorkScoped ;
+    maosch:syntaxPattern "^tt[0-9]{7,8}$" ;
+    skos:note "IMDb mints no identifier for a season as such. A join routed through IMDb identifiers cannot express season-level structure at all, which matters because scheduling, availability and measurement are frequently organised by season."@en .
+
+maosch:WikidataItem a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "Wikidata item identifier"@en ;
+    mao:scopeLevel maosch:MultiLevel ;
+    maosch:syntaxPattern "^Q[1-9][0-9]*$" .
+
+maosch:AdID a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "Ad-ID"@en ;
+    skos:definition "United States advertising asset identifier."@en ;
+    mao:scopeLevel maosch:CreativeScoped .
+
+maosch:FCCFacilityID a skos:Concept ;
+    skos:inScheme maosch:IdentifierSchemeScheme ;
+    skos:prefLabel "FCC facility identifier"@en ;
+    mao:scopeLevel maosch:ServiceScoped .
+
+#################################################################
+# Source systems
+#################################################################
+
+maosch:SourceSystemScheme a skos:ConceptScheme ;
+    dcterms:title "Source systems"@en ;
+    skos:note "The system an assertion was observed in, distinct from the authority that mints the scheme. An EIDR identifier observed in Wikidata is Wikidata's claim about EIDR, and keeping the two apart is what makes third-party identifier coverage measurable at all."@en .
+
+maosch:SourceWikidata a skos:Concept ;
+    skos:inScheme maosch:SourceSystemScheme ;
+    skos:prefLabel "Wikidata"@en .
+
+maosch:SourceEIDRRegistry a skos:Concept ;
+    skos:inScheme maosch:SourceSystemScheme ;
+    skos:prefLabel "EIDR public resolution service"@en .
+
+maosch:SourceIABTechLab a skos:Concept ;
+    skos:inScheme maosch:SourceSystemScheme ;
+    skos:prefLabel "IAB Tech Lab taxonomy publication"@en .
+
+#################################################################
+# Measurement methods
+#################################################################
+
+maosch:MeasurementMethodScheme a skos:ConceptScheme ;
+    dcterms:title "Attention measurement methods"@en .
+
+maosch:AutomaticContentRecognition a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "automatic content recognition"@en ;
+    skos:definition "Identification of on-screen content by matching an audio or video fingerprint against a reference library, typically on a connected television."@en ;
+    skos:note "Recognises only content the reference library contains. A non-match is evidence of absence from the library, not evidence of absence of viewing, and the two are routinely conflated."@en .
+
+maosch:Watermarking a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "watermark detection"@en .
+
+maosch:PanelMeter a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "panel meter"@en ;
+    skos:definition "A metered household recruited into a statistically weighted panel."@en .
+
+maosch:ReturnPathData a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "return path data"@en ;
+    skos:definition "Tuning data returned by set-top boxes or connected devices."@en .
+
+maosch:CensusSDK a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "census SDK instrumentation"@en .
+
+maosch:ServerAdLog a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "server-side ad log"@en .
+
+maosch:SurveyRecall a skos:Concept ;
+    skos:inScheme maosch:MeasurementMethodScheme ;
+    skos:prefLabel "survey recall"@en .
+
+#################################################################
+# Content identification methods
+#################################################################
+
+maosch:ContentIdentificationScheme a skos:ConceptScheme ;
+    dcterms:title "Content identification methods"@en .
+
+maosch:AudioFingerprint a skos:Concept ;
+    skos:inScheme maosch:ContentIdentificationScheme ;
+    skos:prefLabel "audio fingerprint match"@en .
+
+maosch:VideoFingerprint a skos:Concept ;
+    skos:inScheme maosch:ContentIdentificationScheme ;
+    skos:prefLabel "video fingerprint match"@en .
+
+maosch:EPGLookup a skos:Concept ;
+    skos:inScheme maosch:ContentIdentificationScheme ;
+    skos:prefLabel "electronic programme guide lookup"@en ;
+    skos:note "Resolves what was scheduled, not what was transmitted. Schedule overruns and substitutions make this systematically wrong at exactly the moments audiences are largest, which is to say live sport and breaking news."@en .
+
+maosch:PlayerReported a skos:Concept ;
+    skos:inScheme maosch:ContentIdentificationScheme ;
+    skos:prefLabel "player-reported identifier"@en .
+
+#################################################################
+# Identity link methods
+#################################################################
+
+maosch:LinkMethodScheme a skos:ConceptScheme ;
+    dcterms:title "Identity link methods"@en .
+
+maosch:DeterministicIdentifier a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "shared deterministic identifier"@en .
+
+maosch:NormalisedStringMatch a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "normalised string match"@en .
+
+maosch:ProbabilisticMatch a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "probabilistic record linkage"@en .
+
+maosch:EmbeddingSimilarity a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "embedding similarity"@en ;
+    skos:definition "Vector similarity between learned representations of two entities."@en ;
+    skos:note "Similarity is not identity. An embedding places sequels, remakes, dubbed versions and same-franchise titles very close together, which is precisely the neighbourhood where media entity resolution has to be most careful."@en .
+
+maosch:HumanAdjudication a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "human adjudication"@en .
+
+maosch:RegistryCrossReference a skos:Concept ;
+    skos:inScheme maosch:LinkMethodScheme ;
+    skos:prefLabel "registry cross-reference"@en .
+
+#################################################################
+# Consent bases
+#################################################################
+
+maosch:ConsentBasisScheme a skos:ConceptScheme ;
+    dcterms:title "Lawful bases for processing attention data"@en .
+
+maosch:ExplicitOptIn a skos:Concept ;
+    skos:inScheme maosch:ConsentBasisScheme ;
+    skos:prefLabel "explicit opt-in"@en .
+
+maosch:PanelContract a skos:Concept ;
+    skos:inScheme maosch:ConsentBasisScheme ;
+    skos:prefLabel "panel participation contract"@en .
+
+maosch:LegitimateInterest a skos:Concept ;
+    skos:inScheme maosch:ConsentBasisScheme ;
+    skos:prefLabel "legitimate interest"@en .
+
+maosch:DeviceLevelConsent a skos:Concept ;
+    skos:inScheme maosch:ConsentBasisScheme ;
+    skos:prefLabel "device-level consent"@en ;
+    skos:note "Consent captured at set-up on a shared device. It is given by whoever configured the television and is then relied upon for everyone who subsequently watches it, which is a modelling fact worth stating explicitly rather than burying."@en .

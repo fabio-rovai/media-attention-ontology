@@ -1,0 +1,1012 @@
+{
+  "corpus": {
+    "pairs": 224710,
+    "distinct_items": 224182,
+    "distinct_values": 224577,
+    "resolved_records": 1179
+  },
+  "f1_checksum_failures": {
+    "count": 0,
+    "detail": [],
+    "zero_check_character": 6252,
+    "zero_check_pct": 2.78
+  },
+  "f2_shared_values": {
+    "count": 133,
+    "items_involved": 266,
+    "by_level": {
+      "Abstraction / Movie": 69,
+      "Abstraction / Short": 43,
+      "Abstraction / TV": 15,
+      "Abstraction / Series": 5,
+      "Abstraction / Season": 1
+    },
+    "detail": [
+      {
+        "value": "10.5240/051E-A636-8021-7938-F57B-7",
+        "items": [
+          "Q11829971",
+          "Q11829972"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Przygody blekitnego rycerzyka"
+      },
+      {
+        "value": "10.5240/07FB-09A3-C6ED-4A1D-7568-1",
+        "items": [
+          "Q123761856",
+          "Q6134221"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Kamogawa horum\u00f4"
+      },
+      {
+        "value": "10.5240/0E74-67CB-DDE5-4D61-32F1-F",
+        "items": [
+          "Q15145623",
+          "Q16746323"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "TV",
+        "name": "YOLO"
+      },
+      {
+        "value": "10.5240/0A2D-FF74-121E-B439-B767-7",
+        "items": [
+          "Q16201884",
+          "Q25428076"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Hook, Line and Stinker"
+      },
+      {
+        "value": "10.5240/00AA-939E-3727-5E95-3D9F-E",
+        "items": [
+          "Q16252357",
+          "Q4526407"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "New Delhi"
+      },
+      {
+        "value": "10.5240/036B-CB55-8AF6-76ED-BAAD-K",
+        "items": [
+          "Q19827735",
+          "Q20755977"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Solv Giver Arbejde"
+      },
+      {
+        "value": "10.5240/0A8D-0D31-2404-8F7F-2E1E-7",
+        "items": [
+          "Q2840086",
+          "Q4735473"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Alpine Antics"
+      },
+      {
+        "value": "10.5240/0EF6-BED1-F30E-D79B-C79F-O",
+        "items": [
+          "Q33530908",
+          "Q73482193"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Det Mand Ikke Taler Om"
+      },
+      {
+        "value": "10.5240/0F05-42DF-4B80-67C4-889B-4",
+        "items": [
+          "Q50330214",
+          "Q7719707"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "TV",
+        "name": "The Boyfriend"
+      },
+      {
+        "value": "10.5240/0AEE-6E6F-A041-5542-A5DD-R",
+        "items": [
+          "Q7317251",
+          "Q7746831"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Return of the Roller Blade Seven"
+      },
+      {
+        "value": "10.5240/1403-DDD3-2331-D772-D665-H",
+        "items": [
+          "Q108800326",
+          "Q67085362"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Series",
+        "name": "RuPaul's Drag Race: Untucked"
+      },
+      {
+        "value": "10.5240/1651-E631-2505-51BC-792E-1",
+        "items": [
+          "Q120416102",
+          "Q124219162"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Raffa"
+      },
+      {
+        "value": "10.5240/1225-143F-45AA-EF99-2896-R",
+        "items": [
+          "Q132132986",
+          "Q27045121"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Chitrokar"
+      },
+      {
+        "value": "10.5240/1059-6DDD-36A3-E7DE-02EC-D",
+        "items": [
+          "Q19827744",
+          "Q20496042"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "De gamle"
+      },
+      {
+        "value": "10.5240/11DD-6AB2-1883-E195-8FC8-B",
+        "items": [
+          "Q20729727",
+          "Q20757406"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Vejen til paradis"
+      },
+      {
+        "value": "10.5240/1C6F-FBBC-D49D-7509-C985-B",
+        "items": [
+          "Q20728930",
+          "Q20756660"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Ikke h\u00f8re, ikke se..."
+      },
+      {
+        "value": "10.5240/1DD0-656E-4C93-CC0E-5123-V",
+        "items": [
+          "Q21648716",
+          "Q7734335"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Die Flamme"
+      },
+      {
+        "value": "10.5240/1DE8-093F-F607-D654-24A7-G",
+        "items": [
+          "Q52718951",
+          "Q52718953"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Bionic Woman"
+      },
+      {
+        "value": "10.5240/2122-EDC1-2141-233A-B250-V",
+        "items": [
+          "Q115806011",
+          "Q20802116"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "For Valour"
+      },
+      {
+        "value": "10.5240/2606-D1E8-CFE1-7961-8A74-U",
+        "items": [
+          "Q17010035",
+          "Q20729507"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Rafea: Solar Mama"
+      },
+      {
+        "value": "10.5240/2981-C938-377B-3378-6232-P",
+        "items": [
+          "Q28132671",
+          "Q90294288"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Best F(r)iends: Volume One"
+      },
+      {
+        "value": "10.5240/24CC-5E1F-FB78-FE8B-8F33-2",
+        "items": [
+          "Q3427950",
+          "Q3548316"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Reste Avec Moi"
+      },
+      {
+        "value": "10.5240/2C4A-6D0D-2F92-96B4-ECCC-Y",
+        "items": [
+          "Q3510009",
+          "Q3532384"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Toronto Rocks"
+      },
+      {
+        "value": "10.5240/2605-EAB2-C04D-8CA7-85F8-7",
+        "items": [
+          "Q39052390",
+          "Q70216368"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Series",
+        "name": "True and the Rainbow Kingdom"
+      },
+      {
+        "value": "10.5240/27F1-0877-1C0A-12F5-85BD-5",
+        "items": [
+          "Q4657049",
+          "Q73541630"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "A Girl of the Limberlost"
+      },
+      {
+        "value": "10.5240/24E4-EB06-2BED-96FE-EBA4-P",
+        "items": [
+          "Q78306213",
+          "Q78306227"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Escapade in Florence"
+      },
+      {
+        "value": "10.5240/310C-429D-E935-D1E0-BCAE-9",
+        "items": [
+          "Q108102051",
+          "Q5266990"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Deviation"
+      },
+      {
+        "value": "10.5240/30FF-E91C-FC0B-C648-6E17-S",
+        "items": [
+          "Q14954286",
+          "Q16954069"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Das Tanzende Wien"
+      },
+      {
+        "value": "10.5240/3499-291D-AE5D-D890-DE5A-L",
+        "items": [
+          "Q16251299",
+          "Q5350192"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Mane"
+      },
+      {
+        "value": "10.5240/3768-6780-A099-E617-8B0E-7",
+        "items": [
+          "Q16944380",
+          "Q6545959"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Luxo Jr. in 'Surprise' and 'Light & Heavy'"
+      },
+      {
+        "value": "10.5240/3298-7FB3-093A-BF60-E003-K",
+        "items": [
+          "Q20728699",
+          "Q20729577"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "For b\u00f8rnenes skyld"
+      },
+      {
+        "value": "10.5240/36DF-F7EC-8FE1-FCDB-A7E0-M",
+        "items": [
+          "Q20729101",
+          "Q20756896"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Lille Mand, Lille Mand"
+      },
+      {
+        "value": "10.5240/3C10-15CB-F6CC-6171-8F12-C",
+        "items": [
+          "Q24866523",
+          "Q48672554"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Let Me Eat Your Pancreas"
+      },
+      {
+        "value": "10.5240/3960-A724-C896-6105-4198-6",
+        "items": [
+          "Q30935994",
+          "Q91748008"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Hitsuji no ki"
+      },
+      {
+        "value": "10.5240/31BB-F5C5-6CE0-9C6C-5088-N",
+        "items": [
+          "Q3109100",
+          "Q64018935"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Gloria"
+      },
+      {
+        "value": "10.5240/3DA0-3D1B-F1EA-3814-4600-Y",
+        "items": [
+          "Q3761343",
+          "Q3820875"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "The Crusaders"
+      },
+      {
+        "value": "10.5240/3D8D-F0A9-9759-EC36-A06B-H",
+        "items": [
+          "Q50322941",
+          "Q50323059"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "TV",
+        "name": "Kampf um Germanien: Der Verrat des Arminius"
+      },
+      {
+        "value": "10.5240/4AB1-9E13-9BB5-8122-5B1D-G",
+        "items": [
+          "Q1015782",
+          "Q106091724"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Raito noberu no tanoshii kakikata"
+      },
+      {
+        "value": "10.5240/4355-DE88-028F-05AB-7AD1-N",
+        "items": [
+          "Q113581493",
+          "Q28714081"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Unmoral"
+      },
+      {
+        "value": "10.5240/4D71-6D48-2ED7-C8B6-2AAB-U",
+        "items": [
+          "Q12760725",
+          "Q31184824"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Funta sa stednje knjizice"
+      },
+      {
+        "value": "10.5240/4D71-E03C-F917-A2A7-8D47-T",
+        "items": [
+          "Q17144738",
+          "Q17144795"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Beh\u00fct dich Gott"
+      },
+      {
+        "value": "10.5240/4A84-762A-F3FE-CABC-6C2B-Q",
+        "items": [
+          "Q20756020",
+          "Q33525275"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "2000"
+      },
+      {
+        "value": "10.5240/4C36-EACD-0C1B-4624-EEB2-G",
+        "items": [
+          "Q20756668",
+          "Q20757200"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Jens S\u00f8ndergaard: portr\u00e6t af en maler"
+      },
+      {
+        "value": "10.5240/4E50-5CE4-3618-4C6A-AA8E-1",
+        "items": [
+          "Q20756991",
+          "Q33528946"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "One Year"
+      },
+      {
+        "value": "10.5240/4208-AC3F-6B11-24C2-6C70-4",
+        "items": [
+          "Q2121683",
+          "Q25587705"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "TV",
+        "name": "Caretaker"
+      },
+      {
+        "value": "10.5240/42AC-23CE-4B73-25D4-3B53-G",
+        "items": [
+          "Q33546824",
+          "Q33546849"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Landskaber"
+      },
+      {
+        "value": "10.5240/4F8D-A1B5-8F3B-7FD7-107B-X",
+        "items": [
+          "Q33562070",
+          "Q73482927"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Ramt"
+      },
+      {
+        "value": "10.5240/4B5E-9281-9A96-251F-046E-S",
+        "items": [
+          "Q612863",
+          "Q7111767"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Short",
+        "name": "Out of the Inkwell"
+      },
+      {
+        "value": "10.5240/5A4F-E8CF-2220-D6C2-8BEC-M",
+        "items": [
+          "Q122811220",
+          "Q12873494"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "The Rape"
+      },
+      {
+        "value": "10.5240/5F27-A856-D44E-4EFD-C14A-4",
+        "items": [
+          "Q19605738",
+          "Q7504548"
+        ],
+        "structural_type": "Abstraction",
+        "referent_type": "Movie",
+        "name": "Shubamangal Savadhan"
+      }
+    ]
+  },
+  "f3_multi_identifier_items": {
+    "count": 522,
+    "distribution": {
+      "2": 516,
+      "3": 6
+    },
+    "unresolved": 0,
+    "structural_type_combinations": {
+      "Abstraction + Performance": 281,
+      "Abstraction + Abstraction": 232,
+      "Abstraction + Abstraction + Abstraction": 5,
+      "Abstraction + Digital": 3,
+      "Abstraction + Abstraction + Performance": 1
+    },
+    "referent_type_combinations": {
+      "Movie + Movie": 197,
+      "Short + Short": 166,
+      "TV + TV": 132,
+      "Movie + TV": 6,
+      "Season + Season": 6,
+      "Movie + Short": 4,
+      "Movie + Movie + Movie": 2,
+      "Series + Series": 2,
+      "TV + TV + TV": 2,
+      "Season + Season + Series": 1,
+      "Series + TV": 1,
+      "Movie + Series": 1,
+      "Movie + Short + Short": 1,
+      "Compilation + Movie": 1
+    },
+    "cross_level_count": 285,
+    "cross_level_examples": [
+      {
+        "qid": "Q12125766",
+        "values": [
+          "10.5240/08DB-0C53-8283-D037-6B20-B",
+          "10.5240/D6CE-6560-5547-12C2-1236-C"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q12126426",
+        "values": [
+          "10.5240/09E0-9990-F6D3-037D-118A-Z",
+          "10.5240/105D-B38B-81C6-B426-DC76-2"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q1405813",
+        "values": [
+          "10.5240/0AAC-3A22-D546-9BEE-935C-B",
+          "10.5240/9FDE-15B8-6826-B942-A5E9-H"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q16251718",
+        "values": [
+          "10.5240/08E0-F625-6405-8D53-AD81-2",
+          "10.5240/6914-3AB8-0DBC-02DB-5B29-A"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q18149020",
+        "values": [
+          "10.5240/0E19-FFF3-D5AA-6F51-DB42-G",
+          "10.5240/DF13-615A-8473-91C7-A715-V"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q24053293",
+        "values": [
+          "10.5240/094C-A8C3-8981-1F55-7194-C",
+          "10.5240/5CC4-372C-66D3-03B8-03C6-6"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q2495674",
+        "values": [
+          "10.5240/0361-8A5A-9EC8-37E9-4F6A-F",
+          "10.5240/A3E5-EDA6-83A8-46A9-C322-H"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q2607081",
+        "values": [
+          "10.5240/0BAF-5F93-86ED-6859-7107-6",
+          "10.5240/4C1E-E0CF-DEBE-F036-E110-R"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q2927744",
+        "values": [
+          "10.5240/0985-0E96-2F83-0690-0226-7",
+          "10.5240/82A1-7857-1701-FEA8-3A20-O"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q2940904",
+        "values": [
+          "10.5240/04C8-4754-0F4E-0257-10C0-A",
+          "10.5240/A35A-2881-A370-0CEC-CD65-B"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q30754075",
+        "values": [
+          "10.5240/093D-480E-C106-5D26-257F-9",
+          "10.5240/A9BA-E1D5-A80A-3C56-114F-F"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q3232360",
+        "values": [
+          "10.5240/0191-B789-D4C2-6E80-E745-L",
+          "10.5240/1691-77D2-52AF-45B3-9640-D"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q3504049",
+        "values": [
+          "10.5240/0B00-6C95-078D-1319-A528-7",
+          "10.5240/D5C9-070F-6D1D-790D-5A65-A"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q3437258",
+        "values": [
+          "10.5240/02DA-DE20-9948-2C5F-15BB-X",
+          "10.5240/E5A3-1A12-705A-3D96-17F2-M"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q3763675",
+        "values": [
+          "10.5240/0EF2-6B14-A99E-154C-DFC5-Y",
+          "10.5240/51D1-C709-87B1-0D02-1513-H"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q4295509",
+        "values": [
+          "10.5240/0F07-EBA7-4C4B-EF56-9038-G",
+          "10.5240/83EE-DB96-218F-96B7-A995-K"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q4655622",
+        "values": [
+          "10.5240/0DF7-021C-7884-9428-27C0-I",
+          "10.5240/52F3-03BF-6894-B7AA-3EAC-E"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q4657687",
+        "values": [
+          "10.5240/0E79-2BD1-82FD-8879-8C2B-I",
+          "10.5240/2E51-4892-A627-A1A5-CE25-X"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q48672682",
+        "values": [
+          "10.5240/0B33-E518-9359-4CE2-CA56-U",
+          "10.5240/ED44-1CA4-E5CF-93FF-5FA4-1"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q4986245",
+        "values": [
+          "10.5240/08AD-7AA2-7DC6-10CD-9C53-N",
+          "10.5240/740E-6B25-CFD1-4107-FE81-L"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q5297369",
+        "values": [
+          "10.5240/09C0-7F71-FD31-4B05-8FB8-W",
+          "10.5240/C708-4F42-82CA-5A4D-61BF-B"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q5372496",
+        "values": [
+          "10.5240/062A-0444-6BB2-1572-71C0-6",
+          "10.5240/B07D-FBA5-8E03-AF35-D7F1-2"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q5582343",
+        "values": [
+          "10.5240/0EC6-7438-5E39-8ED9-3D2C-4",
+          "10.5240/F24B-D3F0-8057-581E-C0C7-D"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Short",
+          "Short"
+        ]
+      },
+      {
+        "qid": "Q6035554",
+        "values": [
+          "10.5240/0EBB-73B8-BF7E-B91E-13E6-X",
+          "10.5240/F144-1303-5725-C8A1-BBE7-W"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      },
+      {
+        "qid": "Q6085139",
+        "values": [
+          "10.5240/0DF6-A2EF-AFCF-3768-B517-0",
+          "10.5240/2F35-E7A8-CA15-FF6D-807E-J"
+        ],
+        "structural_types": [
+          "Abstraction",
+          "Performance"
+        ],
+        "referent_types": [
+          "Movie",
+          "Movie"
+        ]
+      }
+    ]
+  },
+  "f4_coverage_by_type": {
+    "film": {
+      "wikidata_class": "Q11424",
+      "total": 348231,
+      "with_eidr": 186079,
+      "eidr_pct": 53.44,
+      "with_imdb": 273283,
+      "imdb_pct": 78.48
+    },
+    "television series": {
+      "wikidata_class": "Q5398426",
+      "total": 87959,
+      "with_eidr": 1620,
+      "eidr_pct": 1.84,
+      "with_imdb": 50245,
+      "imdb_pct": 57.12
+    },
+    "television series episode": {
+      "wikidata_class": "Q21191270",
+      "total": 181418,
+      "with_eidr": 14277,
+      "eidr_pct": 7.87,
+      "with_imdb": 152758,
+      "imdb_pct": 84.2
+    },
+    "television series season": {
+      "wikidata_class": "Q3464665",
+      "total": 26429,
+      "with_eidr": 784,
+      "eidr_pct": 2.97,
+      "with_imdb": 205,
+      "imdb_pct": 0.78
+    },
+    "television film": {
+      "wikidata_class": "Q506240",
+      "total": 22631,
+      "with_eidr": 6213,
+      "eidr_pct": 27.45,
+      "with_imdb": 21090,
+      "imdb_pct": 93.19
+    },
+    "short film": {
+      "wikidata_class": "Q24862",
+      "total": 49639,
+      "with_eidr": 7998,
+      "eidr_pct": 16.11,
+      "with_imdb": 31704,
+      "imdb_pct": 63.87
+    }
+  },
+  "f5_property_totals": {
+    "eidr_content": {
+      "statements": 224725,
+      "items": 224197,
+      "values": 224592,
+      "property": "P2704"
+    },
+    "eidr_party": {
+      "statements": 2243,
+      "items": 2205,
+      "values": 2241,
+      "property": "P12142"
+    },
+    "isan": {
+      "statements": 32979,
+      "items": 32942,
+      "values": 32979,
+      "property": "P3212"
+    },
+    "imdb": {
+      "statements": 1190646,
+      "items": 1187343,
+      "values": 1188240,
+      "property": "P345"
+    }
+  }
+}

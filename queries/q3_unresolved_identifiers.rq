@@ -1,0 +1,16 @@
+# Q3. Identifier assertions that were never confirmed against the registry that
+# mints the scheme. A well-formed identifier nobody has resolved is a different
+# and more interesting risk than a malformed one, and only the reified form can
+# express the difference.
+PREFIX mao:    <https://gov.tesseract.academy/def/media#>
+PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+
+SELECT ?scheme (COUNT(?assertion) AS ?assertions)
+               (SUM(IF(BOUND(?resolved), 1, 0)) AS ?confirmed)
+WHERE {
+  ?assertion a mao:IdentifierAssertion ;
+             mao:identifierScheme ?scheme .
+  OPTIONAL { ?assertion mao:resolvedInRegistry ?resolved }
+}
+GROUP BY ?scheme
+ORDER BY DESC(?assertions)

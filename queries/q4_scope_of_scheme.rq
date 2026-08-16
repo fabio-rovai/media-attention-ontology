@@ -1,0 +1,17 @@
+# Q4. What every identifier scheme in the registry actually identifies. The
+# answer to "can I join these two datasets on this column?" is here and nowhere
+# else, which is why scope is declared on the scheme rather than assumed by
+# each consumer.
+PREFIX mao:    <https://gov.tesseract.academy/def/media#>
+PREFIX maosch: <https://gov.tesseract.academy/def/media/scheme#>
+PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?schemeLabel ?scopeLabel ?algorithm
+WHERE {
+  ?scheme skos:inScheme maosch:IdentifierSchemeScheme ;
+          skos:prefLabel ?schemeLabel ;
+          mao:scopeLevel ?scope .
+  ?scope skos:prefLabel ?scopeLabel .
+  OPTIONAL { ?scheme maosch:hasCheckAlgorithm ?algorithm }
+}
+ORDER BY ?scopeLabel ?schemeLabel

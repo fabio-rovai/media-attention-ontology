@@ -1,0 +1,17 @@
+# Q5. Identity links awaiting adjudication, with the evidence that produced
+# them. Nothing here is asserted as owl:sameAs; a registry collision is a
+# reason to look, not a licence to merge.
+PREFIX mao:    <https://gov.tesseract.academy/def/media#>
+
+SELECT ?link ?subject ?object ?method ?confidence ?status
+WHERE {
+  ?link a mao:IdentityLink ;
+        mao:linkSubject ?subject ;
+        mao:linkObject ?object ;
+        mao:linkMethod ?method ;
+        mao:linkConfidence ?confidence ;
+        mao:linkStatus ?status .
+  FILTER (?status = "proposed")
+}
+ORDER BY DESC(?confidence)
+LIMIT 100

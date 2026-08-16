@@ -1,0 +1,91 @@
+{
+  "content-3.1": {
+    "source_file": "Content Taxonomies/Content Taxonomy 3.1.tsv",
+    "concepts": 704,
+    "triples": 6756,
+    "output": "iab-content-3.1.ttl",
+    "defects": {
+      "self_parent": [],
+      "dangling_parent": [],
+      "duplicate_id": [],
+      "empty_name": [],
+      "name_tier_mismatch": [],
+      "cycles": []
+    },
+    "defect_total": 0
+  },
+  "audience-1.1": {
+    "source_file": "Audience Taxonomies/Audience Taxonomy 1.1.tsv",
+    "concepts": 1558,
+    "triples": 17104,
+    "output": "iab-audience-1.1.ttl",
+    "defects": {
+      "self_parent": [],
+      "dangling_parent": [],
+      "duplicate_id": [],
+      "empty_name": [],
+      "name_tier_mismatch": [],
+      "cycles": []
+    },
+    "defect_total": 0
+  },
+  "adproduct-2.0": {
+    "source_file": "Ad Product Taxonomies/Ad Product Taxonomy 2.0.tsv",
+    "concepts": 583,
+    "triples": 5460,
+    "output": "iab-adproduct-2.0.ttl",
+    "defects": {
+      "self_parent": [
+        "1000",
+        "1037"
+      ],
+      "dangling_parent": [],
+      "duplicate_id": [],
+      "empty_name": [],
+      "name_tier_mismatch": [
+        [
+          "1121",
+          "Video Games and Consoles",
+          "Video Game Consoles"
+        ],
+        [
+          "1467",
+          "Personal/Consumer Telcom",
+          "Personal/Consumer Telecom"
+        ],
+        [
+          "1490",
+          "Prayer and worship services",
+          "Prayer and Worship Services"
+        ],
+        [
+          "1491",
+          "Religious causes",
+          "Religious Causes"
+        ],
+        [
+          "1492",
+          "Religious charities",
+          "Religious Charities"
+        ],
+        [
+          "1493",
+          "Religious organizations",
+          "Religious Organizations"
+        ],
+        [
+          "1523",
+          "Non-perscribed Performance Enhancers",
+          "Non-Perscribed Performance Enhancers"
+        ],
+        [
+          "1554",
+          "New vehicle Ownership",
+          "New Vehicle Ownership"
+        ]
+      ],
+      "cycles": []
+    },
+    "defect_total": 10
+  }
+}

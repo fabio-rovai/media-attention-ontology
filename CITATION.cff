@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "Media Attention Ontology (MAO)"
+message: "If you use this ontology or its findings, please cite it."
+type: dataset
+authors:
+  - given-names: Fabio
+    family-names: Rovai
+    affiliation: "Kampakis and Co Ltd, trading as The Tesseract Academy"
+repository-code: "https://github.com/fabio-rovai/media-attention-ontology"
+abstract: >-
+  An open OWL 2 ontology, SKOS registries and SHACL governance layer for content
+  identity, distribution and measured attention across screens, validated against
+  224,710 EIDR identifier assertions harvested from Wikidata and resolved against
+  EIDR's public registry, and including the first SKOS serialisation of the IAB
+  Tech Lab Content, Audience and Ad Product taxonomies.
+license: CC-BY-4.0
+date-released: "2026-08-16"
+version: "0.1.0"

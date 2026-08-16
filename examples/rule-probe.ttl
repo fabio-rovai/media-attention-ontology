@@ -1,0 +1,118 @@
+# A deliberately defective graph. Every node here violates exactly one rule,
+# so that a validation run demonstrates each shape firing rather than asserting
+# that it would. Used by tests/test_shapes.py.
+
+@prefix mao:    <https://gov.tesseract.academy/def/media#> .
+@prefix maosch: <https://gov.tesseract.academy/def/media/scheme#> .
+@prefix ex:     <https://gov.tesseract.academy/def/media/example#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#### R1: a work-scoped identifier attached to a manifestation ####################
+
+ex:manifestation1 a mao:Manifestation ;
+    mao:title "Kajillionaire, 1080p English" ;
+    mao:hasIdentifier ex:id_r1 .
+
+ex:id_r1 a mao:IdentifierAssertion ;
+    mao:identifierValue "tt5171738" ;
+    mao:identifierScheme maosch:IMDbTitle ;
+    mao:identifierSource maosch:SourceWikidata .
+
+#### R2: one identifier value on two distinct works ##############################
+
+ex:workA a mao:Film ; mao:title "Work A" ; mao:hasIdentifier ex:id_r2a .
+ex:workB a mao:Film ; mao:title "Work B" ; mao:hasIdentifier ex:id_r2b .
+
+ex:id_r2a a mao:IdentifierAssertion ;
+    mao:identifierValue "10.5240/524F-9B57-5289-D954-B2F6-0" ;
+    mao:identifierScheme maosch:EIDR ;
+    mao:identifierSource maosch:SourceWikidata ;
+    mao:checksumValid true .
+
+ex:id_r2b a mao:IdentifierAssertion ;
+    mao:identifierValue "10.5240/524F-9B57-5289-D954-B2F6-0" ;
+    mao:identifierScheme maosch:EIDR ;
+    mao:identifierSource maosch:SourceWikidata ;
+    mao:checksumValid true .
+
+#### R3: an attention event pointing at an abstraction ###########################
+
+ex:abstractFilm a mao:Film ;
+    mao:title "An abstraction nobody can watch" .
+
+ex:event_r3 a mao:ViewingEvent ;
+    mao:eventContent ex:abstractFilm ;
+    mao:eventStart "2026-08-01T20:00:00Z"^^xsd:dateTime ;
+    mao:eventDurationSeconds 1800 .
+
+#### R4: inverted derivation window ##############################################
+
+ex:affinity_r4 a mao:GenreAffinity ;
+    mao:attributeSubject ex:household1 ;
+    mao:attributeConcept maosch:EIDR ;
+    mao:attributeScore 0.4 ;
+    mao:derivedFromObservationCount 40 ;
+    mao:derivationWindowStart "2026-07-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationWindowEnd   "2026-06-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationMethod maosch:PanelMeter ;
+    mao:derivationVersion "v1.0" ;
+    mao:computedAt "2026-08-01T00:00:00Z"^^xsd:dateTime .
+
+#### R5: confident affinity on negligible evidence ###############################
+
+ex:affinity_r5 a mao:BrandAffinity ;
+    mao:attributeSubject ex:household1 ;
+    mao:attributeConcept maosch:EIDR ;
+    mao:attributeScore 0.95 ;
+    mao:derivedFromObservationCount 1 ;
+    mao:derivationWindowStart "2026-07-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationWindowEnd   "2026-08-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationMethod maosch:CensusSDK ;
+    mao:derivationVersion "v1.0" ;
+    mao:computedAt "2026-08-01T00:00:00Z"^^xsd:dateTime .
+
+#### R6: probabilistic link accepted below threshold #############################
+
+ex:link_r6 a mao:IdentityLink ;
+    mao:linkSubject ex:device1 ;
+    mao:linkObject ex:household1 ;
+    mao:linkConfidence 0.62 ;
+    mao:linkMethod maosch:ProbabilisticMatch ;
+    mao:linkStatus "accepted" .
+
+#### R7: derived attribute computed after consent withdrawal #####################
+
+ex:household2 a mao:Household ;
+    mao:hasConsentRecord ex:consent2 .
+
+ex:consent2 a mao:ConsentRecord ;
+    mao:consentBasis maosch:DeviceLevelConsent ;
+    mao:consentGrantedAt   "2025-01-01T00:00:00Z"^^xsd:dateTime ;
+    mao:consentWithdrawnAt "2026-05-01T00:00:00Z"^^xsd:dateTime .
+
+ex:affinity_r7 a mao:TopicAffinity ;
+    mao:attributeSubject ex:household2 ;
+    mao:attributeConcept maosch:EIDR ;
+    mao:attributeScore 0.5 ;
+    mao:derivedFromObservationCount 25 ;
+    mao:derivationWindowStart "2026-06-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationWindowEnd   "2026-07-01T00:00:00Z"^^xsd:dateTime ;
+    mao:derivationMethod maosch:ReturnPathData ;
+    mao:derivationVersion "v1.0" ;
+    mao:computedAt "2026-07-02T00:00:00Z"^^xsd:dateTime .
+
+#### R8: inverted availability window ############################################
+
+ex:window_r8 a mao:AvailabilityWindow ;
+    mao:windowContent ex:workA ;
+    mao:windowService ex:service1 ;
+    mao:windowTerritory "GB" ;
+    mao:windowStart "2026-03-01T00:00:00Z"^^xsd:dateTime ;
+    mao:windowEnd   "2026-02-01T00:00:00Z"^^xsd:dateTime .
+
+#### supporting nodes ############################################################
+
+ex:household1 a mao:Household .
+ex:device1 a mao:Device ; mao:deviceInHousehold ex:household1 .
+ex:service1 a mao:StreamingService .
