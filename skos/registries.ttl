@@ -72,9 +72,9 @@ maosch:EIDR a skos:Concept ;
     skos:prefLabel "EIDR content identifier"@en ;
     skos:definition "Entertainment Identifier Registry content identifier, issued under DOI prefix 10.5240. EIDR records declare their own structural type (abstraction, performance, digital, composite), so a bare EIDR identifier does not tell a consumer which level of the hierarchy it denotes."@en ;
     mao:scopeLevel maosch:MultiLevel ;
-    maosch:hasCheckAlgorithm "ISO 7064 MOD 37,36 with EIDR symbol mapping" ;
+    maosch:hasCheckAlgorithm "ISO 7064 MOD 37,36" ;
     maosch:syntaxPattern "^10\\.5240/[0-9A-F]{4}(-[0-9A-F]{4}){4}-[0-9A-Z]$" ;
-    skos:note "The check character uses the ISO 7064 hybrid MOD 37,36 computation, but EIDR maps the supplementary value to the digit 0 rather than the conventional asterisk. An unmodified ISO 7064 implementation therefore rejects every valid EIDR identifier whose check character is 0, which is approximately one in thirty-six of them."@en .
+    skos:note "The check character is the ISO 7064 hybrid system MOD 37,36, whose check alphabet is the ten digits and the twenty-six capital letters. A stock ISO 7064 MOD 37,36 implementation validates every EIDR identifier in the August 2026 corpus."@en .
 
 maosch:EIDRParty a skos:Concept ;
     skos:inScheme maosch:IdentifierSchemeScheme ;

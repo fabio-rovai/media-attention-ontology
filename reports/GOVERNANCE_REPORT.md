@@ -15,7 +15,7 @@ Generated 2026-08-16 from a live Wikidata harvest and same-day EIDR public resol
 
 **224,577 distinct EIDR identifiers, zero check-character failures.** This is a guarded null result and it is reported as one. Unlike company and fund identifier registers, where hand-keyed values routinely fail their own arithmetic, the EIDR values mirrored into Wikidata are arithmetically perfect, which is consistent with their having been machine-imported rather than typed.
 
-The finding that survives is about the algorithm, not the data. EIDR's check character is the ISO 7064 hybrid MOD 37,36 computation, but EIDR maps the supplementary value to the digit `0` where the standard convention is an asterisk. An unmodified ISO 7064 implementation therefore rejects every valid EIDR identifier whose check character is `0`. In this corpus that is **6,252 identifiers, 2.78% of the total**, almost exactly the one-in-thirty-six a uniformly distributed check character predicts. A validator built on a stock ISO 7064 library rejects every one of them as corrupt, and every one of them is perfectly valid.
+EIDR's check character is the ISO 7064 hybrid system MOD 37,36 exactly as published, and a stock library (python-stdnum `iso7064.mod_37_36`) agrees with `pipeline/eidr.py` on every identifier (`tests/test_eidr.py`). **6,252 identifiers, 2.78% of the total**, carry the check character `0`, almost exactly the one-in-thirty-six a uniformly distributed check character predicts.
 
 ## Finding 2: one identifier, two works
 

@@ -129,16 +129,13 @@ def render(f, iab=None) -> str:
           f"Wikidata are arithmetically perfect, which is consistent with their "
           f"having been machine-imported rather than typed.\n")
         z = f["f1_checksum_failures"]
-        A(f"The finding that survives is about the algorithm, not the data. EIDR's "
-          f"check character is the ISO 7064 hybrid MOD 37,36 computation, but EIDR "
-          f"maps the supplementary value to the digit `0` where the standard "
-          f"convention is an asterisk. An unmodified ISO 7064 implementation "
-          f"therefore rejects every valid EIDR identifier whose check character is "
-          f"`0`. In this corpus that is **{z['zero_check_character']:,} identifiers, "
-          f"{z['zero_check_pct']}% of the total**, almost exactly the one-in-"
-          f"thirty-six a uniformly distributed check character predicts. A "
-          f"validator built on a stock ISO 7064 library rejects every one of them "
-          f"as corrupt, and every one of them is perfectly valid.\n")
+        A(f"EIDR's check character is the ISO 7064 hybrid system MOD 37,36 exactly "
+          f"as published, and a stock library (python-stdnum `iso7064.mod_37_36`) "
+          f"agrees with `pipeline/eidr.py` on every identifier "
+          f"(`tests/test_eidr.py`). **{z['zero_check_character']:,} identifiers, "
+          f"{z['zero_check_pct']}% of the total**, carry the check character `0`, "
+          f"almost exactly the one-in-thirty-six a uniformly distributed check "
+          f"character predicts.\n")
     else:
         A(f"**{n} identifiers fail their check character.**\n")
         A("| value | expected | found | items |")

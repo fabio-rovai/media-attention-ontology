@@ -15,14 +15,16 @@ This is not a toy schema. It is the question every media measurement team actual
 
 All figures from a live Wikidata harvest and same-day EIDR resolution. Both are living systems; a re-fetch moves the totals.
 
+**Update, 11 November 2026.** A previous version of this README showed that a stock ISO 7064 library rejects 2.78% of valid EIDR identifiers. Thanks to Richard W. Kroon, Senior Director of Technical Operations at EIDR, that behaviour is explained and the corrected results are below. EIDR runs ISO 7064 MOD 37,36 exactly as published, and a stock library validates all 224,577 identifiers (finding 2). The coverage figures measure Wikidata's coverage of EIDR, not the registry's own holdings (finding 6). 162 of the 522 works carrying more than one EIDR identifier hold an identifier plus its own retired alias, which EIDR had already merged (finding 4).
+
 | # | Finding | Number |
 |---|---|---|
 | 1 | Distinct EIDR identifiers checked, **zero check-character failures**. Reported as a guarded null result: unlike company and fund registers, this data is arithmetically perfect, consistent with machine import rather than hand keying | **0 of 224,577** |
-| 2 | EIDR identifiers whose check character is `0`. EIDR runs the ISO 7064 hybrid MOD 37,36 computation but maps the supplementary value to `0` where the standard convention is `*`. **A validator built on a stock ISO 7064 library rejects every one of these as corrupt, and every one is perfectly valid** | **6,252 (2.78%)** |
+| 2 | EIDR identifiers validated by a **stock ISO 7064 MOD 37,36 library** (python-stdnum), which agrees with `pipeline/eidr.py` on every one. 6,252 of them (2.78%) carry the check character `0`, the one in thirty-six a uniform distribution predicts | **224,577 of 224,577** |
 | 3 | EIDR identifiers each claimed by **two distinct works**, involving 266 works. Every one resolves to an Abstraction record: 69 Movie, 43 Short, 15 TV, 5 Series, 1 Season | **133** |
-| 4 | Works carrying **more than one EIDR identifier** (516 carry two, 6 carry three) | **522** |
+| 4 | Works carrying **more than one EIDR identifier** (516 carry two, 6 carry three). 162 of them hold an identifier plus its own retired alias, which EIDR had already merged (`pipeline/check_aliases.py`, run 11 November 2026) | **522** |
 | 5 | Of those, works holding identifiers at **more than one level of the abstraction hierarchy at once**, a title-level record and a specific cut attached to the same node as though interchangeable. 281 are Abstraction plus Performance, 3 Abstraction plus Digital | **285 (54.6%)** |
-| 6 | EIDR coverage of **films** in Wikidata versus **television series**. EIDR is the audiovisual industry's own registry, and in the open graph it is overwhelmingly a film registry | **53.44% vs 1.84%** |
+| 6 | EIDR coverage of **films** in Wikidata versus **television series**. EIDR is the audiovisual industry's own registry, and seen through the open graph it is overwhelmingly a film registry. EIDR's own registry holds many more series, seasons and episodes than Wikidata links to | **53.44% vs 1.84%** |
 | 7 | IMDb coverage of **television seasons**. IMDb mints no season-level identifier, so a join routed through IMDb cannot express season structure at all, which matters because scheduling, availability and measurement are frequently organised by season | **0.78% (205 of 26,429)** |
 | 8 | RDF, SKOS or OWL files in the IAB Tech Lab taxonomy repository. The advertising industry's shared vocabularies ship as 21 tab-separated spreadsheets whose hierarchy every consumer re-implements | **0** |
 | 9 | Structural defects found in the source while converting them, including **two concepts in Ad Product Taxonomy 2.0 that declare themselves as their own parent**, a cycle in what is meant to be a tree, plus 8 rows whose name column disagrees with its own tier column | **10** |
@@ -79,8 +81,10 @@ skos/iab-*.ttl               The IAB Content 3.1, Audience 1.1 and Ad Product 2.
                              carried forward
 shapes/mao-shapes.ttl        SHACL layers 1 to 3: structural completeness, checksum
                              policy, and eight cross-entity rules R1 to R8
-pipeline/eidr.py             EIDR check character, ISO 7064 MOD 37,36 with EIDR's own
-                             symbol mapping, with embedded test vectors
+pipeline/eidr.py             EIDR check character, ISO 7064 MOD 37,36, with embedded
+                             test vectors
+pipeline/check_aliases.py    Finds works whose identifiers are one EIDR record and its
+                             retired alias
 pipeline/wikidata.py         Polite Wikidata SPARQL client with retry
 pipeline/harvest_wikidata.py Partitioned harvest, subdividing any partition the query
                              service truncates
@@ -91,7 +95,9 @@ pipeline/build_graph.py      Streaming N-Triples builder
 pipeline/governance_report.py Set-based recomputation of every finding
 queries/                     5 SPARQL queries; Q1 and Q2 reproduce the report exactly
 examples/rule-probe.ttl      One deliberate violation of each rule R1 to R8
-tests/                       13 tests, including a guard that every rule still fires
+tests/                       16 tests, including a guard that every rule still fires
+                             and a cross-check of the check character against a
+                             stock ISO 7064 library
 ```
 
 ## Reproduce
@@ -104,12 +110,14 @@ python pipeline/resolve_eidr.py               # public EIDR resolution, resumabl
 python pipeline/iab_to_skos.py --src <clone of IAB Taxonomies> --out skos
 python pipeline/build_graph.py data           # 2.7M triples in under 3 seconds
 python pipeline/governance_report.py data     # regenerates the findings
-pytest -q                                     # 13 tests
+pytest -q                                     # 16 tests
 ```
 
-Two engineering notes worth knowing before you run it.
+Three engineering notes worth knowing before you run it.
 
-**The check character.** EIDR's is the ISO 7064 hybrid MOD 37,36 computation, but where the standard maps the supplementary value to `*`, EIDR maps it to `0`. Implemented from the standard alone, a validator rejects 2.78% of all valid EIDR identifiers. `pipeline/eidr.py` carries embedded test vectors including that case, and the algorithm validates 224,577 real identifiers at 100%.
+**The check character.** EIDR's is the ISO 7064 hybrid system MOD 37,36 exactly as published, with a check alphabet of the ten digits and the twenty-six capital letters. The asterisk belongs to the pure system MOD 37-2. `pipeline/eidr.py` validates 224,577 real identifiers at 100%, python-stdnum's stock `mod_37_36` agrees on every one, and `tests/test_eidr.py` holds the two together.
+
+**Aliases.** EIDR's public resolver follows a retired identifier to the record it was merged into and returns that record without saying so. Compare the `ID` returned with the one requested. `pipeline/check_aliases.py` does this for every work carrying more than one identifier.
 
 **Scale.** Holding 2.7 million triples in an in-memory rdflib graph and serialising Turtle does not survive; streaming N-Triples writes the same graph in under three seconds and stays flat in memory. The ontology, registry and shape files remain Turtle, where readability is worth having and the size is trivial.
 

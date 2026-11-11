@@ -1,1 +1,2 @@
 pytest>=8.0
+python-stdnum>=2.0

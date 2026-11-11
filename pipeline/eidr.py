@@ -1,12 +1,16 @@
-"""EIDR content-ID check character: ISO 7064 MOD 37,36 with EIDR's own symbol mapping.
+"""EIDR content-ID check character: the ISO 7064 hybrid system MOD 37,36.
 
-Verified empirically against real EIDR identifiers harvested from Wikidata.
+Verified against real EIDR identifiers harvested from Wikidata and against a stock
+library: python-stdnum's iso7064.mod_37_36 agrees with this module on all 224,577
+(tests/test_eidr.py).
 
-The one non-obvious point: the hybrid MOD 37,36 computation yields a value in 1..36.
-The ISO standard maps the 36th value to a supplementary character, conventionally '*'.
-EIDR does not use '*': it maps that value to '0', giving a clean 36-symbol check
-alphabet. An off-the-shelf MOD 37,36 implementation therefore rejects every valid
-EIDR identifier whose check character is '0'.
+The check alphabet is the ten digits and the twenty-six capital letters. The hybrid
+system closes its computation modulo 36, so there is no supplementary character; '*'
+belongs to the pure system MOD 37-2.
+
+A previous version of this note described the '0' check character as EIDR's own
+mapping of a supplementary value. Thanks to Richard W. Kroon at EIDR that behaviour
+is explained: '0' is the check character MOD 37,36 itself gives.
 """
 import re
 
@@ -38,14 +42,13 @@ def is_valid(eidr):
     return check_character(payload) == chk
 
 
-# Test vectors: real EIDR identifiers, including the '0' check-character case
-# that a naive ISO 7064 implementation gets wrong.
+# Test vectors: real EIDR identifiers, including two whose check character is '0'.
 TEST_VECTORS = [
     ("10.5240/1735-1DDC-D724-F42E-BE7A-7", True),
     ("10.5240/12CE-96C8-D806-F79D-3DAC-G", True),
     ("10.5240/8233-E6F9-F524-2826-0F71-O", True),
-    ("10.5240/524F-9B57-5289-D954-B2F6-0", True),   # supplementary value -> '0'
-    ("10.5240/7DA3-5D43-8684-1686-8F10-0", True),   # supplementary value -> '0'
+    ("10.5240/524F-9B57-5289-D954-B2F6-0", True),   # check character '0'
+    ("10.5240/7DA3-5D43-8684-1686-8F10-0", True),   # check character '0'
     ("10.5240/1735-1DDC-D724-F42E-BE7A-8", False),  # check char altered
     ("10.5240/1735-1DDC-D724-F42E-BE7B-7", False),  # payload altered
 ]
