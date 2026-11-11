@@ -20,7 +20,7 @@ All figures from a live Wikidata harvest and same-day EIDR resolution. Both are 
 | # | Finding | Number |
 |---|---|---|
 | 1 | Distinct EIDR identifiers checked, **zero check-character failures**. Reported as a guarded null result: unlike company and fund registers, this data is arithmetically perfect, consistent with machine import rather than hand keying | **0 of 224,577** |
-| 2 | EIDR identifiers validated by a **stock ISO 7064 MOD 37,36 library** (python-stdnum), which agrees with `pipeline/eidr.py` on every one. 6,252 of them (2.78%) carry the check character `0`, the one in thirty-six a uniform distribution predicts | **224,577 of 224,577** |
+| 2 | Share of the 224,577 distinct EIDR identifiers validated by a **stock ISO 7064 MOD 37,36 library** (python-stdnum), which agrees with `pipeline/eidr.py` on every one. 6,252 of them (2.78%) carry the check character `0`, the one in thirty-six a uniform distribution predicts | **100%** |
 | 3 | EIDR identifiers each claimed by **two distinct works**, involving 266 works. Every one resolves to an Abstraction record: 69 Movie, 43 Short, 15 TV, 5 Series, 1 Season | **133** |
 | 4 | Works carrying **more than one EIDR identifier** (516 carry two, 6 carry three). 162 of them hold an identifier plus its own retired alias, which EIDR had already merged (`pipeline/check_aliases.py`, run 11 November 2026) | **522** |
 | 5 | Of those, works holding identifiers at **more than one level of the abstraction hierarchy at once**, a title-level record and a specific cut attached to the same node as though interchangeable. 281 are Abstraction plus Performance, 3 Abstraction plus Digital | **285 (54.6%)** |
