@@ -70,7 +70,7 @@ maosch:IdentifierSchemeScheme a skos:ConceptScheme ;
 maosch:EIDR a skos:Concept ;
     skos:inScheme maosch:IdentifierSchemeScheme ;
     skos:prefLabel "EIDR content identifier"@en ;
-    skos:definition "Entertainment Identifier Registry content identifier, issued under DOI prefix 10.5240. EIDR records declare their own structural type (abstraction, performance, digital, composite), so a bare EIDR identifier does not tell a consumer which level of the hierarchy it denotes."@en ;
+    skos:definition "Entertainment Identifier Registry content identifier, issued under DOI prefix 10.5240. EIDR records declare their own structural type (abstraction, performance, digital), so a bare EIDR identifier does not tell a consumer which level of the hierarchy it denotes."@en ;
     mao:scopeLevel maosch:MultiLevel ;
     maosch:hasCheckAlgorithm "ISO 7064 MOD 37,36" ;
     maosch:syntaxPattern "^10\\.5240/[0-9A-F]{4}(-[0-9A-F]{4}){4}-[0-9A-Z]$" ;
